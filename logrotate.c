@@ -528,6 +528,7 @@ static int createOutputFile(char *fileName, int flags, struct stat *sb,
 	message(MESS_ERROR, "error setting mode of %s: %s\n",
 		fileName, strerror(errno));
 	close(fd);
+	unlink(fileName);
 	return -1;
     }
 
@@ -535,6 +536,7 @@ static int createOutputFile(char *fileName, int flags, struct stat *sb,
 		message(MESS_ERROR, "fstat of %s failed: %s\n", fileName,
 			strerror(errno));
 		close(fd);
+		unlink(fileName);
 		return -1;
 	}
 
@@ -543,6 +545,7 @@ static int createOutputFile(char *fileName, int flags, struct stat *sb,
 	message(MESS_ERROR, "error setting owner of %s to uid %d and gid %d: %s\n",
 		fileName, sb->st_uid, sb->st_gid, strerror(errno));
 	close(fd);
+	unlink(fileName);
 	return -1;
     }
 
@@ -553,6 +556,7 @@ static int createOutputFile(char *fileName, int flags, struct stat *sb,
 				message(MESS_ERROR, "setting ACL for %s: %s\n",
 				fileName, strerror(errno));
 				close(fd);
+				unlink(fileName);
 				return -1;
 			}
 			acl_set = 0;
@@ -570,6 +574,7 @@ static int createOutputFile(char *fileName, int flags, struct stat *sb,
 		message(MESS_ERROR, "error setting mode of %s: %s\n",
 			fileName, strerror(errno));
 		close(fd);
+		unlink(fileName);
 		return -1;
 		}
 	}
